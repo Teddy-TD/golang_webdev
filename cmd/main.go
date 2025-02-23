@@ -25,33 +25,31 @@ func newTemplate() *Template {
 type Count struct {
  Count int
 }
-
-type Contact struct{
-	Name string 
-	Email string
+type Contact struct {
+    Name  string
+    Email string
 }
 
-func newContact (name, email string) *Contact {
-	return &Contact {
-		Name: name,
-		Email: email,
-	} 
+func newContact(name, email string) Contact {  
+    return Contact{
+        Name:  name,
+        Email: email,
+    }
 }
 
 type Contacts = []Contact
 
 type Data struct {
-	Contacts Contacts
+    Contacts Contacts
 }
 
-
 func newData() Data {
-	return Data {
+    return Data{
         Contacts: []Contact{
-			newContact("John", "john@gamil.com"),
+            newContact("John", "john@gamil.com"),
             newContact("Jane", "jane@example.com"),
             newContact("Bob", "bob@example.com"),
-		},
+        },
     }
 }
 
@@ -72,8 +70,8 @@ func main(){
 	e.POST("/contacts", func(c echo.Context) error {
 		name := c.FormValue("name")
 		email := c.FormValue("email")	
-		data.Contacts = append(data.Contacts, *newContact(name, email))
-        return c.Render(200, "index", data )
+		data.Contacts = append(data.Contacts, newContact(name, email))
+        return c.Render(200, "display", data )
     })
 
 	e.Logger.Fatal(e.Start(":26087"))
